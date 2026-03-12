@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Modern Auth</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card dashboard-card">
+            <img id="userAvatar" src="https://via.placeholder.com/80" alt="Profile" class="user-avatar">
+            <h1 id="userName">Welcome</h1>
+            <p id="userEmail" class="footer-text" style="margin-top: 0.5rem;"></p>
+            
+            <button id="logoutBtn" class="logout-btn" style="border: none; cursor: pointer; width: 100%; max-width: 150px;">Log Out</button>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
+        import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+          apiKey: "AIzaSyDbtn5xcTdntKWYrD__dprWLgIhUbvsaqs",
+          authDomain: "login-page-c490c.firebaseapp.com",
+          projectId: "login-page-c490c",
+          storageBucket: "login-page-c490c.firebasestorage.app",
+          messagingSenderId: "95064394310",
+          appId: "1:95064394310:web:552f186f9a2b6f0e8a9847",
+          measurementId: "G-56WVSXWNMD"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // Display user data from URL params
+        const params = new URLSearchParams(window.location.search);
+        const name = params.get('name');
+        const email = params.get('email');
+        const picture = params.get('picture');
+
+        if (name && email) {
+            document.getElementById('userName').textContent = `Hello, ${decodeURIComponent(name)}!`;
+            document.getElementById('userEmail').textContent = decodeURIComponent(email);
+            if (picture) {
+                document.getElementById('userAvatar').src = decodeURIComponent(picture);
+            }
+        } else {
+            // Check auth state if no params (fallback)
+            auth.onAuthStateChanged((user) => {
+                if (user) {
+                    document.getElementById('userName').textContent = `Hello, ${user.displayName}!`;
+                    document.getElementById('userEmail').textContent = user.email;
+                    if (user.photoURL) document.getElementById('userAvatar').src = user.photoURL;
+                } else {
+                    window.location.href = 'index.html';
+                }
+            });
+        }
+
+        // Logout logic
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            signOut(auth).then(() => {
+                window.location.href = 'index.html';
+            }).catch((error) => {
+                console.error("Logout error:", error);
+            });
+        });
+    </script>
+</body>
+</html>
