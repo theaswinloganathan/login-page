@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Modern Login with Google Sign-In
 
 A premium, responsive login application built with HTML, CSS, JavaScript, and Node.js.
@@ -51,3 +52,6 @@ Now open [http://localhost:3000](http://localhost:3000) in your browser.
 - 📱 Fully Responsive Layout
 - 🔐 Secure Google OAuth 2.0 Integration
 - 👤 Dynamic User Dashboard
+=======
+# login-page
+>>>>>>> d3b56abf3eb7129eef3f72e3c713b1c9fb42aa67
