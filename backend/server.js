@@ -59,6 +59,14 @@ app.get('/auth/google/callback',
   }
 );
 
+app.get('/api/profile', (req, res) => {
+    if (req.isAuthenticated()) {
+        res.json(req.user);
+    } else {
+        res.status(401).json({ message: "Not authenticated" });
+    }
+});
+
 app.get('/auth/logout', (req, res) => {
     req.logout(() => {
         res.redirect('http://localhost:3000/index.html');
